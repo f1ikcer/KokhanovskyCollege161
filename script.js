@@ -423,9 +423,23 @@ function setActiveNav() {
 }
 
 /* ═══════════════════════════════════════════════════
+   ОТКЛЮЧЕНИЕ SERVICE WORKER (PWA)
+   ═══════════════════════════════════════════════════ */
+function disableServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      registrations.forEach(reg => reg.unregister());
+    });
+  }
+}
+
+/* ═══════════════════════════════════════════════════
    ИНИЦИАЛИЗАЦИЯ
    ═══════════════════════════════════════════════════ */
 document.addEventListener("DOMContentLoaded", () => {
+  // Отключаем PWA при каждом запуске страницы
+  disableServiceWorker();
+
   const savedLang = localStorage.getItem("lang") || "ru";
   setLanguage(savedLang);
 

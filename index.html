@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru" data-lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#080810"/>
+  <title data-key="title">Кохановский государственный колледж</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=120&h=120&fit=crop" alt="эмблема">
+    <span data-key="college_name">КГК</span>
+  </a>
+  <div class="header-controls">
+    <div class="lang">
+      <button class="lang-btn active" data-lang="ru">РУС</button>
+      <button class="lang-btn" data-lang="be">БЕЛ</button>
+    </div>
+    <button id="theme-toggle" title="Сменить тему"><i class="fa-solid fa-sun"></i></button>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="hero" style="background-image:url('https://iili.io/qBPRdaS.md.jpg');">
+    <div class="hero-overlay">
+      <h1 data-key="welcome">Добро пожаловать<br>в Кохановский колледж</h1>
+    </div>
+  </div>
+
+  <!-- ОБРАТНЫЙ ОТСЧЁТ -->
+  <div class="countdown-card">
+    <h3 data-key="countdown_label">до конца учёбы</h3>
+    <div id="countdown"></div>
+  </div>
+
+  <section class="card">
+    <h2 data-key="about_college">О колледже</h2>
+    <p>Государственное учреждение образования «Кохановский государственный профессионально-технический колледж» осуществляет подготовку рабочих и служащих по 8 профессиям.</p>
+    <p style="margin-top:10px" data-key="about_college_2">Колледж расположен в живописном месте Оршанского района — агрогородке Коханово.</p>
+  </section>
+
+  <section class="card">
+    <h2 data-key="news">Новости и объявления</h2>
+    <div class="news-item">
+      <time>3 марта 2026</time>
+      <h3>День открытых дверей</h3>
+      <p>Приглашаем всех желающих 15 марта 2026 года в 11:00</p>
+    </div>
+    <div class="news-item">
+      <time>28 февраля 2026</time>
+      <h3>Начало приёмной кампании</h3>
+      <p>Документы принимаются с 15 июня по 25 июля</p>
+    </div>
+  </section>
+
+</main>
+
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-item active"><i class="fa-solid fa-house"></i><span data-key="nav_home">Главная</span></a>
+  <a href="schedule.html" class="nav-item"><i class="fa-solid fa-calendar-days"></i><span data-key="nav_schedule">Расписание</span></a>
+  <a href="about.html" class="nav-item"><i class="fa-solid fa-user"></i><span data-key="nav_about">О создателе</span></a>
+  <a href="gallery.html" class="nav-item"><i class="fa-solid fa-images"></i><span data-key="nav_gallery">Галерея</span></a>
+  <a href="contacts.html" class="nav-item"><i class="fa-solid fa-envelope"></i><span data-key="nav_contacts">Контакты</span></a>
+  <a href="wheel.html" class="nav-item"><i class="fa-solid fa-dharmachakra"></i><span data-key="nav_wheel">Колесо фортуны</span></a>
+</nav>
+<button id="to-top" title="Наверх"><i class="fa-solid fa-chevron-up"></i></button>
+<script src="script.js"></script>
+</body>
+</html>

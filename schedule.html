@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru" data-lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#080810"/>
+  <title data-key="title_schedule">Расписание — КГК</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=120&h=120&fit=crop" alt="эмблема">
+    <span data-key="college_name">КГК</span>
+  </a>
+  <div class="header-controls">
+    <div class="lang">
+      <button class="lang-btn active" data-lang="ru">РУС</button>
+      <button class="lang-btn" data-lang="be">БЕЛ</button>
+    </div>
+    <button id="theme-toggle" title="Сменить тему"><i class="fa-solid fa-sun"></i></button>
+  </div>
+</header>
+
+<main class="container">
+
+  <h1>Расписание</h1>
+
+  <!-- ЖИВОЙ СТАТУС УРОКА -->
+  <div id="lesson-status" class="lesson-status ls-done">
+    <span class="ls-icon">🌙</span>
+    <span class="ls-text">Загрузка...</span>
+  </div>
+
+  <p class="section-title">Распорядок дня <span>(I полугодие 2025/2026)</span></p>
+  <table class="timetable">
+    <thead><tr><th>Пара</th><th>Урок</th><th>Время</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>1</td><td>8:30 – 9:15</td></tr>
+      <tr><td>1</td><td>2</td><td>9:25 – 10:10</td></tr>
+      <tr><td>2</td><td>3</td><td>10:20 – 11:05</td></tr>
+      <tr><td>2</td><td>4</td><td>11:15 – 12:00</td></tr>
+      <tr class="lunch-row"><td colspan="3">Обед (гр.163,164,160) — 12:00–12:20</td></tr>
+      <tr><td>3</td><td>5</td><td>12:20 – 13:05</td></tr>
+      <tr class="lunch-row"><td colspan="3">Обед (гр.160,159,158) — 13:05–13:25</td></tr>
+      <tr><td>3</td><td>6</td><td>13:25 – 14:10</td></tr>
+      <tr><td>4</td><td>7</td><td>14:20 – 15:05</td></tr>
+      <tr><td>4</td><td>8</td><td>15:15 – 16:00</td></tr>
+    </tbody>
+  </table>
+
+  <!-- =====================================================
+    ▼▼▼ ДАТА — МЕНЯЙ ЗДЕСЬ (формат: ДД.ММ.ГГГГ) ▼▼▼
+  ====================================================== -->
+  <p class="section-title">Занятия по группам <span id="sched-date">(10.03.2026)</span></p>
+  <!-- ====================================================
+    ▲▲▲ ДАТА — МЕНЯЙ ВЫШЕ ▲▲▲
+  ====================================================== -->
+
+  <div class="groups-wrap">
+    <table class="groups-table">
+
+      <!-- ================================================
+        ▼▼▼ ЗАГОЛОВКИ ГРУПП — меняй номера групп здесь ▼▼▼
+      ================================================== -->
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>158</th>  <!-- ← группа 1 -->
+          <th>159</th>  <!-- ← группа 2 -->
+          <th>160</th>  <!-- ← группа 3 -->
+          <th>161</th>  <!-- ← группа 4 -->
+          <th>163</th>  <!-- ← группа 5 -->
+          <th>164</th>  <!-- ← группа 6 -->
+        </tr>
+      </thead>
+      <!-- ================================================
+        ▲▲▲ ЗАГОЛОВКИ ГРУПП ВЫШЕ ▲▲▲
+      ================================================== -->
+
+      <tbody>
+        <!-- ============================================
+          ▼▼▼ ЗАНЯТИЯ — МЕНЯЙ ЗДЕСЬ ▼▼▼
+          Каждая строка = один урок (№ пары).
+          Меняй текст внутри <td>...</td>
+          Если урока нет — ставь: —
+        =============================================== -->
+
+        <!-- Урок 1 -->
+        <tr>
+          <td>1</td>
+          <td>физра</td>        <!-- гр.158 -->
+          <td>практика</td>     <!-- гр.159 -->
+          <td>охрана труда</td> <!-- гр.160 -->
+          <td>химия</td>        <!-- гр.161 -->
+          <td>бел.яз</td>       <!-- гр.163 -->
+          <td>инфо.</td>        <!-- гр.164 -->
+        </tr>
+
+        <!-- Урок 2 -->
+        <tr>
+          <td>2</td>
+          <td>ТО</td>                <!-- гр.158 -->
+          <td>практика</td>          <!-- гр.159 -->
+          <td>ЛПЗ уст.агр.тех</td>  <!-- гр.160 -->
+          <td>охрана труда</td>      <!-- гр.161 -->
+          <td>физра/рус.лит</td>     <!-- гр.163 -->
+          <td>рус.лит/физра</td>     <!-- гр.164 -->
+        </tr>
+
+        <!-- Урок 3 -->
+        <tr>
+          <td>3</td>
+          <td>технология произ. СМ</td> <!-- гр.158 -->
+          <td>практика</td>             <!-- гр.159 -->
+          <td>ЛПЗ уст.агр.тех</td>     <!-- гр.160 -->
+          <td>физика</td>               <!-- гр.161 -->
+          <td>матем.</td>               <!-- гр.163 -->
+          <td>охрана труда</td>         <!-- гр.164 -->
+        </tr>
+
+        <!-- Урок 4 -->
+        <tr>
+          <td>4</td>
+          <td>уст. СМ кат. «Е»</td>    <!-- гр.158 -->
+          <td>практика</td>             <!-- гр.159 -->
+          <td>ЛПЗ уст.агр.тех</td>     <!-- гр.160 -->
+          <td>прикл.инф/немецкий</td>   <!-- гр.161 -->
+          <td>физика</td>               <!-- гр.163 -->
+          <td>ТОМР</td>                 <!-- гр.164 -->
+        </tr>
+
+        <!-- Урок 5 (если нет — ставь —) -->
+        <tr>
+          <td>5</td>
+          <td>—</td> <!-- гр.158 -->
+          <td>—</td> <!-- гр.159 -->
+          <td>—</td> <!-- гр.160 -->
+          <td>—</td> <!-- гр.161 -->
+          <td>—</td> <!-- гр.163 -->
+          <td>—</td> <!-- гр.164 -->
+        </tr>
+
+        <!-- ============================================
+          ▲▲▲ ЗАНЯТИЯ — МЕНЯЙ ВЫШЕ ▲▲▲
+        =============================================== -->
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i><span data-key="nav_home">Главная</span></a>
+  <a href="schedule.html" class="nav-item active"><i class="fa-solid fa-calendar-days"></i><span data-key="nav_schedule">Расписание</span></a>
+  <a href="about.html" class="nav-item"><i class="fa-solid fa-user"></i><span data-key="nav_about">О создателе</span></a>
+  <a href="gallery.html" class="nav-item"><i class="fa-solid fa-images"></i><span data-key="nav_gallery">Галерея</span></a>
+  <a href="contacts.html" class="nav-item"><i class="fa-solid fa-envelope"></i><span data-key="nav_contacts">Контакты</span></a>
+  <a href="wheel.html" class="nav-item"><i class="fa-solid fa-dharmachakra"></i><span data-key="nav_wheel">Колесо фортуны</span></a>
+</nav>
+<button id="to-top" title="Наверх"><i class="fa-solid fa-chevron-up"></i></button>
+<script src="script.js"></script>
+</body>
+</html>

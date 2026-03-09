@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru" data-lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#080810"/>
+  <title data-key="title_contacts">Контакты — КГК</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <a href="index.html" class="logo">
+    <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=120&h=120&fit=crop" alt="эмблема">
+    <span data-key="college_name">КГК</span>
+  </a>
+  <div class="header-controls">
+    <div class="lang">
+      <button class="lang-btn active" data-lang="ru">РУС</button>
+      <button class="lang-btn" data-lang="be">БЕЛ</button>
+    </div>
+    <button id="theme-toggle" title="Сменить тему"><i class="fa-solid fa-sun"></i></button>
+  </div>
+</header>
+<main class="container">
+  <h1 data-key="contacts_h1">Контакты</h1>
+  <div class="card contact-card">
+    <div class="contact-row">
+      <i class="fa-solid fa-location-dot"></i>
+      <div><strong>Адрес:</strong><br>211135, Витебская обл., Толочинский р-н,<br>аг. Коханово, ул. Оршанская, 94</div>
+    </div>
+    <div class="contact-row">
+      <i class="fa-solid fa-phone"></i>
+      <div><strong>Телефоны:</strong><br>+375 (2136) 2-93-48<br>+375 (2136) 2-94-12 (приёмная)</div>
+    </div>
+    <div class="contact-row">
+      <i class="fa-solid fa-envelope"></i>
+      <div><strong>Email:</strong><br>—</div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Как добраться</h3>
+    <div style="margin-top:14px;border-radius:12px;overflow:hidden;">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2343.6!2d30.3686!3d54.5234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46d0b0b0b0b0b0b1%3A0x1!2z0LDQsy4g0JrQvtGF0LDQvdC-0LLQviwg0YPQuy4g0J7RgNGI0LDQvdGB0LrQsNGPLCA5NQ!5e0!3m2!1sru!2sby!4v1"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        style="width:100%;height:320px;border:none;display:block;border-radius:12px;">
+      </iframe>
+    </div>
+    <div style="margin-top:12px;text-align:center;">
+      <a href="https://maps.google.com/?q=54.5234,30.3686" target="_blank"
+         style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--accent);color:#fff;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.9rem;">
+        <i class="fa-solid fa-location-arrow"></i> Открыть в Google Maps
+      </a>
+    </div>
+  </div>
+</main>
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i><span data-key="nav_home">Главная</span></a>
+  <a href="schedule.html" class="nav-item"><i class="fa-solid fa-calendar-days"></i><span data-key="nav_schedule">Расписание</span></a>
+  <a href="about.html" class="nav-item"><i class="fa-solid fa-user"></i><span data-key="nav_about">О создателе</span></a>
+  <a href="gallery.html" class="nav-item"><i class="fa-solid fa-images"></i><span data-key="nav_gallery">Галерея</span></a>
+  <a href="contacts.html" class="nav-item active"><i class="fa-solid fa-envelope"></i><span data-key="nav_contacts">Контакты</span></a>
+  <a href="wheel.html" class="nav-item"><i class="fa-solid fa-dharmachakra"></i><span data-key="nav_wheel">Колесо фортуны</span></a>
+</nav>
+<button id="to-top" title="Наверх"><i class="fa-solid fa-chevron-up"></i></button>
+<script src="script.js"></script>
+</body>
+</html>

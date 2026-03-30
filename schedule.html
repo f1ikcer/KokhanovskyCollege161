@@ -4,22 +4,105 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="theme-color" content="#080810"/>
-  <!-- Кэш отключён — всегда свежие данные -->
+  <!-- Кэш отключён -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
   <meta http-equiv="Pragma" content="no-cache"/>
   <meta http-equiv="Expires" content="0"/>
-  <!-- PWA / GoNative -->
   <link rel="manifest" href="manifest.json"/>
-  <meta name="mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="apple-mobile-web-app-title" content="КГК"/>
   <title data-key="title_schedule">Расписание — КГК</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous"/>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Локальные фиксы расписания ── */
+    .timetable-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius, 16px);
+      border: 0.5px solid rgba(255,255,255,0.10);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+      margin-bottom: 16px;
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+    }
+    .timetable {
+      width: 100%; min-width: 260px;
+      border-collapse: collapse;
+      background: rgba(28,28,30,0.72);
+      font-size: 0.83rem;
+    }
+    .timetable th {
+      background: rgba(44,44,46,0.65); color: #0A84FF;
+      font-weight: 700; padding: 9px 12px; text-align: center;
+      border-bottom: 0.5px solid rgba(84,84,88,0.65);
+      white-space: nowrap;
+    }
+    .timetable td {
+      padding: 8px 12px; text-align: center;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+      color: #fff; white-space: nowrap;
+    }
+    .timetable td:first-child {
+      background: rgba(10,132,255,0.08);
+      font-weight: 700; color: #0A84FF; width: 44px;
+    }
+    .timetable .lunch-row td {
+      font-size: 0.73rem; color: rgba(235,235,245,0.6);
+      background: rgba(255,255,255,0.02);
+      padding: 4px 12px; font-style: italic;
+      white-space: normal;
+    }
+    .timetable tr:last-child td { border-bottom: none; }
+
+    /* ── Таблица групп — горизонтальный скролл ── */
+    .groups-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius, 16px);
+      border: 0.5px solid rgba(255,255,255,0.10);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+      margin-bottom: 16px;
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+    }
+    .groups-table {
+      width: 100%; min-width: 500px;
+      border-collapse: collapse;
+      background: rgba(28,28,30,0.72);
+      font-size: 0.73rem;
+    }
+    .groups-table th {
+      background: rgba(44,44,46,0.65); color: #0A84FF;
+      font-weight: 700; padding: 9px 6px; text-align: center;
+      border-bottom: 0.5px solid rgba(84,84,88,0.65);
+      border-right: 0.5px solid rgba(255,255,255,0.08);
+      white-space: nowrap; font-size: 0.78rem;
+    }
+    .groups-table th:last-child { border-right: none; }
+    .groups-table td {
+      padding: 7px 5px; text-align: center;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+      border-right: 0.5px solid rgba(255,255,255,0.06);
+      color: rgba(235,235,245,0.75); line-height: 1.3;
+      word-break: break-word;
+    }
+    .groups-table td:first-child {
+      background: rgba(10,132,255,0.08); font-weight: 700;
+      color: #0A84FF; white-space: nowrap;
+      border-right: 0.5px solid rgba(84,84,88,0.45);
+    }
+    .groups-table td:last-child { border-right: none; }
+    .groups-table tr:last-child td { border-bottom: none; }
+
+    /* Подсказка о скролле */
+    .scroll-hint {
+      font-size: 0.72rem; color: rgba(235,235,245,0.35);
+      text-align: center; margin-bottom: 6px;
+      display: flex; align-items: center; justify-content: center; gap: 4px;
+    }
+  </style>
 </head>
 <body>
 
@@ -48,21 +131,25 @@
   </div>
 
   <p class="section-title">Распорядок дня <span>(I полугодие 2025/2026)</span></p>
-  <table class="timetable">
-    <thead><tr><th>Пара</th><th>Урок</th><th>Время</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>1</td><td>8:30 – 9:15</td></tr>
-      <tr><td>1</td><td>2</td><td>9:25 – 10:10</td></tr>
-      <tr><td>2</td><td>3</td><td>10:20 – 11:05</td></tr>
-      <tr><td>2</td><td>4</td><td>11:15 – 12:00</td></tr>
-      <tr class="lunch-row"><td colspan="3">Обед (гр.163,164,160) — 12:00–12:20</td></tr>
-      <tr><td>3</td><td>5</td><td>12:20 – 13:05</td></tr>
-      <tr class="lunch-row"><td colspan="3">Обед (гр.160,159,158) — 13:05–13:25</td></tr>
-      <tr><td>3</td><td>6</td><td>13:25 – 14:10</td></tr>
-      <tr><td>4</td><td>7</td><td>14:20 – 15:05</td></tr>
-      <tr><td>4</td><td>8</td><td>15:15 – 16:00</td></tr>
-    </tbody>
-  </table>
+
+  <!-- Таблица времени — со скроллом -->
+  <div class="timetable-scroll">
+    <table class="timetable">
+      <thead><tr><th>Пара</th><th>Урок</th><th>Время</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>1</td><td>8:30 – 9:15</td></tr>
+        <tr><td>1</td><td>2</td><td>9:25 – 10:10</td></tr>
+        <tr><td>2</td><td>3</td><td>10:20 – 11:05</td></tr>
+        <tr><td>2</td><td>4</td><td>11:15 – 12:00</td></tr>
+        <tr class="lunch-row"><td colspan="3">Обед (гр.163,164,160) — 12:00–12:20</td></tr>
+        <tr><td>3</td><td>5</td><td>12:20 – 13:05</td></tr>
+        <tr class="lunch-row"><td colspan="3">Обед (гр.160,159,158) — 13:05–13:25</td></tr>
+        <tr><td>3</td><td>6</td><td>13:25 – 14:10</td></tr>
+        <tr><td>4</td><td>7</td><td>14:20 – 15:05</td></tr>
+        <tr><td>4</td><td>8</td><td>15:15 – 16:00</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <!-- =====================================================
     ▼▼▼ ДАТА — МЕНЯЙ ЗДЕСЬ (формат: ДД.ММ.ГГГГ) ▼▼▼
@@ -72,88 +159,85 @@
     ▲▲▲ ДАТА — МЕНЯЙ ВЫШЕ ▲▲▲
   ====================================================== -->
 
-  <div class="groups-wrap">
-    <table class="groups-table">
+  <p class="scroll-hint">← прокрути таблицу →</p>
 
+  <!-- Таблица групп — со скроллом -->
+  <div class="groups-scroll">
+    <table class="groups-table">
       <!-- ================================================
-        ▼▼▼ ЗАГОЛОВКИ ГРУПП — меняй номера групп здесь ▼▼▼
+        ▼▼▼ ЗАГОЛОВКИ ГРУПП — меняй номера здесь ▼▼▼
       ================================================== -->
       <thead>
         <tr>
           <th>№</th>
-          <th>158</th>  <!-- ← группа 1 -->
-          <th>159</th>  <!-- ← группа 2 -->
-          <th>160</th>  <!-- ← группа 3 -->
-          <th>161</th>  <!-- ← группа 4 -->
-          <th>163</th>  <!-- ← группа 5 -->
-          <th>164</th>  <!-- ← группа 6 -->
+          <th>158</th>
+          <th>159</th>
+          <th>160</th>
+          <th>161</th>
+          <th>163</th>
+          <th>164</th>
         </tr>
       </thead>
-      <!-- ================================================
-        ▲▲▲ ЗАГОЛОВКИ ГРУПП ВЫШЕ ▲▲▲
-      ================================================== -->
-
       <tbody>
         <!-- ============================================
           ▼▼▼ ЗАНЯТИЯ — МЕНЯЙ ЗДЕСЬ ▼▼▼
-          Каждая строка = один урок (№ пары).
-          Меняй текст внутри <td>...</td>
+          Каждая строка = один урок.
           Если урока нет — ставь: —
         =============================================== -->
 
         <!-- Урок 1 -->
         <tr>
           <td>1</td>
-          <td>ЛПЗ уст. СМ кат. Е</td>        <!-- гр.158 -->
-          <td>практика</td>     <!-- гр.159 -->
-          <td>без.яз</td> <!-- гр.160 -->
-          <td>ТОМР/физра</td>        <!-- гр.161 -->
+          <td>ЛПЗ уст. СМ кат. Е</td>   <!-- гр.158 -->
+          <td>практика</td>               <!-- гр.159 -->
+          <td>без.яз</td>                 <!-- гр.160 -->
+          <td>ТОМР/физра</td>             <!-- гр.161 -->
           <td>слесарные работы</td>       <!-- гр.163 -->
-          <td>охрана труда </td>        <!-- гр.164 -->
+          <td>охрана труда</td>           <!-- гр.164 -->
         </tr>
 
         <!-- Урок 2 -->
         <tr>
           <td>2</td>
-          <td>ЛПЗ уст. СМ кат. Е</td>                <!-- гр.158 -->
-          <td>практика</td>          <!-- гр.159 -->
-          <td>физра/ТОМР</td>  <!-- гр.160 -->
-          <td>бел.яз</td>      <!-- гр.161 -->
-          <td>слесарные работы</td>     <!-- гр.163 -->
-          <td>ПДД</td>     <!-- гр.164 -->
+          <td>ЛПЗ уст. СМ кат. Е</td>   <!-- гр.158 -->
+          <td>практика</td>               <!-- гр.159 -->
+          <td>физра/ТОМР</td>             <!-- гр.160 -->
+          <td>бел.яз</td>                 <!-- гр.161 -->
+          <td>слесарные работы</td>       <!-- гр.163 -->
+          <td>ПДД</td>                    <!-- гр.164 -->
         </tr>
 
         <!-- Урок 3 -->
         <tr>
           <td>3</td>
-          <td>ЛПЗ уст. СМ кат. Е</td> <!-- гр.158 -->
-          <td>практика</td>             <!-- гр.159 -->
-          <td>ПДД</td>     <!-- гр.160 -->
-          <td>прикл.инф(а)/немец.яз</td>               <!-- гр.161 -->
-          <td>слесарные работы</td>               <!-- гр.163 -->
-          <td>рус.яз</td>         <!-- гр.164 -->
+          <td>ЛПЗ уст. СМ кат. Е</td>   <!-- гр.158 -->
+          <td>практика</td>               <!-- гр.159 -->
+          <td>ПДД</td>                    <!-- гр.160 -->
+          <td>прикл.инф/нем.яз</td>       <!-- гр.161 -->
+          <td>слесарные работы</td>       <!-- гр.163 -->
+          <td>рус.яз</td>                 <!-- гр.164 -->
         </tr>
 
         <!-- Урок 4 -->
         <tr>
           <td>4</td>
-          <td>основы экономики</td>    <!-- гр.158 -->
+          <td>осн. экономики</td>         <!-- гр.158 -->
           <td>воспит.час</td>             <!-- гр.159 -->
-          <td>воспит.час</td>     <!-- гр.160 -->
-          <td>воспит.час</td>   <!-- гр.161 -->
-          <td>воспит.час</td>               <!-- гр.163 -->
-          <td>воспит.час</td>                 <!-- гр.164 -->
+          <td>воспит.час</td>             <!-- гр.160 -->
+          <td>воспит.час</td>             <!-- гр.161 -->
+          <td>воспит.час</td>             <!-- гр.163 -->
+          <td>воспит.час</td>             <!-- гр.164 -->
         </tr>
 
         <!-- Урок 5 (если нет — ставь —) -->
         <tr>
           <td>5</td>
-          <td>воспит.чач</td> <!-- гр.158 -->
-          <td>—</td> <!-- гр.159 -->
-          <td>—</td> <!-- гр.160 -->
-          <td>—</td> <!-- гр.161 -->
-          <td>—</td> <!-- гр.163 -->
-          <td>—</td> <!-- гр.164 -->
+          <td>воспит.час</td>             <!-- гр.158 -->
+          <td>—</td>                      <!-- гр.159 -->
+          <td>—</td>                      <!-- гр.160 -->
+          <td>—</td>                      <!-- гр.161 -->
+          <td>—</td>                      <!-- гр.163 -->
+          <td>—</td>                      <!-- гр.164 -->
         </tr>
 
         <!-- ============================================
@@ -177,5 +261,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
-            

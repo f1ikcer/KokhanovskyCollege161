@@ -42,6 +42,8 @@
   --shadow-sm:   0 2px 12px rgba(0,0,0,0.4);
   --shadow-lg:   0 8px 48px rgba(0,0,0,0.8);
 
+  /* 120 FPS — подсказка браузеру */
+  scroll-behavior: smooth;
   --transition:  0.25s cubic-bezier(0.4, 0, 0.2, 1);
   --spring:      0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
 
@@ -493,13 +495,19 @@ time { color: var(--accent); font-size: 0.75rem; font-weight: 600; letter-spacin
 }
 .section-title span { color: var(--text2); font-weight: 500; font-size: 0.88rem; }
 
-.timetable {
-  width: 100%; border-collapse: collapse;
-  background: var(--glass);
-  backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+.timetable-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius);
   border: 0.5px solid var(--glass-border);
-  border-radius: var(--radius); overflow: hidden;
-  box-shadow: var(--shadow); margin-bottom: 16px; font-size: 0.83rem;
+  box-shadow: var(--shadow); margin-bottom: 16px;
+  backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+}
+.timetable {
+  width: 100%; min-width: 260px;
+  border-collapse: collapse;
+  background: var(--glass);
+  font-size: 0.83rem;
 }
 .timetable th {
   background: var(--glass2); color: var(--accent);
@@ -516,8 +524,4 @@ time { color: var(--accent); font-size: 0.75rem; font-weight: 600; letter-spacin
   background: rgba(10,132,255,0.06);
   font-weight: 700; color: var(--accent); width: 42px;
 }
-[data-theme="light"] .timetable td:first-child { background: rgba(0,122,255,0.06); }
-.timetable .lunch-row td {
-  font-size: 0.74rem; color: var(--text2);
-  background: rgba(255,255,255,0.03);
-  pa
+[data-theme="light"] .timetable td:first-child { b

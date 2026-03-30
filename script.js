@@ -113,6 +113,13 @@ function initParticles() {
 
   for (let i = 0; i < 55; i++) particles.push(new Particle());
 
+  /* Пауза при скрытой вкладке — экономит CPU/GPU */
+  let _raf;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) cancelAnimationFrame(_raf);
+    else loop();
+  });
+
   function loop() {
     ctx.clearRect(0, 0, W, H);
     // Соединяем близкие частицы линиями
@@ -135,7 +142,7 @@ function initParticles() {
       particles[i].update();
       particles[i].draw();
     }
-    requestAnimationFrame(loop);
+    _raf = requestAnimationFrame(loop);
   }
   loop();
 }
@@ -438,6 +445,14 @@ function disableServiceWorker() {
 /* ═══════════════════════════════════════════════════
    ИНИЦИАЛИЗАЦИЯ
    ═══════════════════════════════════════════════════ */
+
+/* ── 120fps hint ── */
+if ('scheduler' in window && 'postTask' in scheduler) {
+  // Chrome 94+ поддерживает высокий приоритет
+}
+// Форсируем GPU рендер
+document.documentElement.style.transform = 'translateZ(0)';
+
 document.addEventListener("DOMContentLoaded", () => {
   // Отключаем PWA при каждом запуске страницы
   disableServiceWorker();
@@ -468,3 +483,4 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
   );
 });
+     

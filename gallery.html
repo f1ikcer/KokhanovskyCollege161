@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru" data-lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#080810"/>
+  <title data-key="title_gallery">Галерея — КГК</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=120&h=120&fit=crop" alt="эмблема">
+    <span data-key="college_name">КГК</span>
+  </a>
+  <div class="header-controls">
+    <div class="lang">
+      <button class="lang-btn active" data-lang="ru">РУС</button>
+      <button class="lang-btn" data-lang="be">БЕЛ</button>
+    </div>
+    <button id="theme-toggle" title="Сменить тему"><i class="fa-solid fa-sun"></i></button>
+  </div>
+</header>
+
+<main class="container">
+  <h1 data-key="gallery_h1">Галерея группа №161</h1>
+  <div class="gallery-grid">
+    <div class="gallery-item"><img src="https://iili.io/qBLFsnI.jpg" alt="корпус" loading="lazy"></div>
+    <div class="gallery-item"><img src="https://iili.io/qBLF6jp.jpg" alt="студенты" loading="lazy"></div>
+    <div class="gallery-item"><img src="https://iili.io/qBLKdnS.jpg" alt="актовый зал" loading="lazy"></div>
+    <div class="gallery-item"><img src="https://iili.io/qBL3ve4.jpg" alt="лаборатория" loading="lazy"></div>
+    <div class="gallery-item"><img src="https://iili.io/qBLFgyv.jpg" alt="библиотека" loading="lazy"></div>
+    <div class="gallery-item"><img src="https://iili.io/qBLKfcu.jpg" alt="спортзал" loading="lazy"></div>
+  </div>
+</main>
+
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i><span data-key="nav_home">Главная</span></a>
+  <a href="schedule.html" class="nav-item"><i class="fa-solid fa-calendar-days"></i><span data-key="nav_schedule">Расписание</span></a>
+  <a href="contacts.html" class="nav-item"><i class="fa-solid fa-envelope"></i><span data-key="nav_contacts">Контакты</span></a>
+  <button class="nav-item nav-more-btn" id="more-btn">
+    <i class="fa-solid fa-ellipsis"></i><span>Ещё</span>
+  </button>
+</nav>
+<button id="to-top" title="Наверх"><i class="fa-solid fa-chevron-up"></i></button>
+
+<!-- LIGHTBOX с навигацией -->
+<div id="lightbox" class="lightbox">
+  <span class="close-lightbox">×</span>
+  <button class="lb-arrow" id="lb-prev"><i class="fa-solid fa-chevron-left"></i></button>
+  <img id="lightbox-img" src="" alt="">
+  <button class="lb-arrow" id="lb-next"><i class="fa-solid fa-chevron-right"></i></button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

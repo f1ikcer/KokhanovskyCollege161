@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ru" data-lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#080810"/>
+  <!-- Кэш отключён -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title data-key="title_schedule">Расписание — КГК</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Локальные фиксы расписания ── */
+    .timetable-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius, 16px);
+      border: 0.5px solid rgba(255,255,255,0.10);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+      margin-bottom: 16px;
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+    }
+    .timetable {
+      width: 100%; min-width: 260px;
+      border-collapse: collapse;
+      background: rgba(28,28,30,0.72);
+      font-size: 0.83rem;
+    }
+    .timetable th {
+      background: rgba(44,44,46,0.65); color: #0A84FF;
+      font-weight: 700; padding: 9px 12px; text-align: center;
+      border-bottom: 0.5px solid rgba(84,84,88,0.65);
+      white-space: nowrap;
+    }
+    .timetable td {
+      padding: 8px 12px; text-align: center;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+      color: #fff; white-space: nowrap;
+    }
+    .timetable td:first-child {
+      background: rgba(10,132,255,0.08);
+      font-weight: 700; color: #0A84FF; width: 44px;
+    }
+    .timetable .lunch-row td {
+      font-size: 0.73rem; color: rgba(235,235,245,0.6);
+      background: rgba(255,255,255,0.02);
+      padding: 4px 12px; font-style: italic;
+      white-space: normal;
+    }
+    .timetable tr:last-child td { border-bottom: none; }
+
+    /* ── Таблица групп — горизонтальный скролл ── */
+    .groups-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius, 16px);
+      border: 0.5px solid rgba(255,255,255,0.10);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+      margin-bottom: 16px;
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+    }
+    .groups-table {
+      width: 100%; min-width: 500px;
+      border-collapse: collapse;
+      background: rgba(28,28,30,0.72);
+      font-size: 0.73rem;
+    }
+    .groups-table th {
+      background: rgba(44,44,46,0.65); color: #0A84FF;
+      font-weight: 700; padding: 9px 6px; text-align: center;
+      border-bottom: 0.5px solid rgba(84,84,88,0.65);
+      border-right: 0.5px solid rgba(255,255,255,0.08);
+      white-space: nowrap; font-size: 0.78rem;
+    }
+    .groups-table th:last-child { border-right: none; }
+    .groups-table td {
+      padding: 7px 5px; text-align: center;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+      border-right: 0.5px solid rgba(255,255,255,0.06);
+      color: rgba(235,235,245,0.75); line-height: 1.3;
+      word-break: break-word;
+    }
+    .groups-table td:first-child {
+      background: rgba(10,132,255,0.08); font-weight: 700;
+      color: #0A84FF; white-space: nowrap;
+      border-right: 0.5px solid rgba(84,84,88,0.45);
+    }
+    .groups-table td:last-child { border-right: none; }
+    .groups-table tr:last-child td { border-bottom: none; }
+
+    /* Подсказка о скролле */
+    .scroll-hint {
+      font-size: 0.72rem; color: rgba(235,235,245,0.35);
+      text-align: center; margin-bottom: 6px;
+      display: flex; align-items: center; justify-content: center; gap: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=120&h=120&fit=crop" alt="эмблема">
+    <span data-key="college_name">КГК</span>
+  </a>
+  <div class="header-controls">
+    <div class="lang">
+      <button class="lang-btn active" data-lang="ru">РУС</button>
+      <button class="lang-btn" data-lang="be">БЕЛ</button>
+    </div>
+    <button id="theme-toggle" title="Сменить тему"><i class="fa-solid fa-sun"></i></button>
+  </div>
+</header>
+
+<main class="container">
+
+  <h1>Расписание</h1>
+
+  <!-- ЖИВОЙ СТАТУС УРОКА -->
+  <div id="lesson-status" class="lesson-status ls-done">
+    <span class="ls-icon">🌙</span>
+    <span class="ls-text">Загрузка...</span>
+  </div>
+
+  <p class="section-title">Распорядок дня <span>(I полугодие 2025/2026)</span></p>
+
+  <!-- Таблица времени — со скроллом -->
+  <div class="timetable-scroll">
+    <table class="timetable">
+      <thead><tr><th>Пара</th><th>Урок</th><th>Время</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>1</td><td>8:30 – 9:15</td></tr>
+        <tr><td>1</td><td>2</td><td>9:25 – 10:10</td></tr>
+        <tr><td>2</td><td>3</td><td>10:20 – 11:05</td></tr>
+        <tr><td>2</td><td>4</td><td>11:15 – 12:00</td></tr>
+        <tr class="lunch-row"><td colspan="3">Обед (гр.163,164,160) — 12:00–12:20</td></tr>
+        <tr><td>3</td><td>5</td><td>12:20 – 13:05</td></tr>
+        <tr class="lunch-row"><td colspan="3">Обед (гр.160,159,158) — 13:05–13:25</td></tr>
+        <tr><td>3</td><td>6</td><td>13:25 – 14:10</td></tr>
+        <tr><td>4</td><td>7</td><td>14:20 – 15:05</td></tr>
+        <tr><td>4</td><td>8</td><td>15:15 – 16:00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- =====================================================
+    ▼▼▼ ДАТА — МЕНЯЙ ЗДЕСЬ (формат: ДД.ММ.ГГГГ) ▼▼▼
+  ====================================================== -->
+  <p class="section-title">Занятия по группам <span id="sched-date">(11.03.2026)</span></p>
+  <!-- ====================================================
+    ▲▲▲ ДАТА — МЕНЯЙ ВЫШЕ ▲▲▲
+  ====================================================== -->
+
+  <p class="scroll-hint">← прокрути таблицу →</p>
+
+  <!-- Таблица групп — со скроллом -->
+  <div class="groups-scroll">
+    <table class="groups-table">
+      <!-- ================================================
+        ▼▼▼ ЗАГОЛОВКИ ГРУПП — меняй номера здесь ▼▼▼
+      ================================================== -->
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>158</th>
+          <th>159</th>
+          <th>160</th>
+          <th>161</th>
+          <th>163</th>
+          <th>164</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- ============================================
+          ▼▼▼ ЗАНЯТИЯ — МЕНЯЙ ЗДЕСЬ ▼▼▼
+          Каждая строка = один урок.
+          Если урока нет — ставь: —
+        =============================================== -->
+
+        <!-- Урок 1 -->
+        <tr>
+          <td>1</td>
+          <td>HHHHHHHHHHG</td>   <!-- гр.158 -->
+          <td>hfidududhdbdbhfjfjfhc</td>               <!-- гр.159 -->
+          <td>без.яз</td>                 <!-- гр.160 -->
+          <td>ТОМР/физра</td>             <!-- гр.161 -->
+          <td>слесарные работы</td>       <!-- гр.163 -->
+          <td>охрана труда</td>           <!-- гр.164 -->
+        </tr>
+
+        <!-- Урок 2 -->
+        <tr>
+          <td>2</td>
+          <td>ЛПЗ уст. СМ кат. Е</td>   <!-- гр.158 -->
+          <td>практика</td>               <!-- гр.159 -->
+          <td>физра/ТОМР</td>             <!-- гр.160 -->
+          <td>бел.яз</td>                 <!-- гр.161 -->
+          <td>слесарные работы</td>       <!-- гр.163 -->
+          <td>ПДД</td>                    <!-- гр.164 -->
+        </tr>
+
+        <!-- Урок 3 -->
+        <tr>
+          <td>3</td>
+          <td>ЛПЗ уст. СМ кат. Е</td>   <!-- гр.158 -->
+          <td>практика</td>               <!-- гр.159 -->
+          <td>ПДД</td>                    <!-- гр.160 -->
+          <td>прикл.инф/нем.яз</td>       <!-- гр.161 -->
+          <td>слесарные работы</td>       <!-- гр.163 -->
+          <td>рус.яз</td>                 <!-- гр.164 -->
+        </tr>
+
+        <!-- Урок 4 -->
+        <tr>
+          <td>4</td>
+          <td>осн. экономики</td>         <!-- гр.158 -->
+          <td>воспит.час</td>             <!-- гр.159 -->
+          <td>воспит.час</td>             <!-- гр.160 -->
+          <td>воспит.час</td>             <!-- гр.161 -->
+          <td>воспит.час</td>             <!-- гр.163 -->
+          <td>воспит.час</td>             <!-- гр.164 -->
+        </tr>
+
+        <!-- Урок 5 (если нет — ставь —) -->
+        <tr>
+          <td>5</td>
+          <td>воспит.час</td>             <!-- гр.158 -->
+          <td>—</td>                      <!-- гр.159 -->
+          <td>—</td>                      <!-- гр.160 -->
+          <td>—</td>                      <!-- гр.161 -->
+          <td>—</td>                      <!-- гр.163 -->
+          <td>—</td>                      <!-- гр.164 -->
+        </tr>
+
+        <!-- ============================================
+          ▲▲▲ ЗАНЯТИЯ — МЕНЯЙ ВЫШЕ ▲▲▲
+        =============================================== -->
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i><span data-key="nav_home">Главная</span></a>
+  <a href="schedule.html" class="nav-item active"><i class="fa-solid fa-calendar-days"></i><span data-key="nav_schedule">Расписание</span></a>
+  <a href="contacts.html" class="nav-item"><i class="fa-solid fa-envelope"></i><span data-key="nav_contacts">Контакты</span></a>
+  <button class="nav-item nav-more-btn" id="more-btn">
+    <i class="fa-solid fa-ellipsis"></i><span>Ещё</span>
+  </button>
+</nav>
+<button id="to-top" title="Наверх"><i class="fa-solid fa-chevron-up"></i></button>
+<script src="script.js"></script>
+<script src="schedule-data.js"></script>
+<script>
+/* ── Авторендер таблицы из schedule-data.js ── */
+(function() {
+  if (typeof SCHEDULE === 'undefined') return;
+
+  // Дата
+  const dateEl = document.getElementById('sched-date');
+  if (dateEl) dateEl.textContent = '(' + SCHEDULE.date + ')';
+
+  // Заголовки
+  const thead = document.querySelector('.groups-table thead tr');
+  if (thead) {
+    thead.innerHTML = '<th>№</th>' + SCHEDULE.groups.map(g => `<th>${g}</th>`).join('');
+  }
+
+  // Строки
+  const tbody = document.querySelector('.groups-table tbody');
+  if (tbody) {
+    tbody.innerHTML = SCHEDULE.rows.map(row =>
+      '<tr>' + row.map((cell, i) => `<td>${cell}</td>`).join('') + '</tr>'
+    ).join('');
+  }
+
+  // Уведомление при смене версии
+  const lastVer = localStorage.getItem('kgk_sched_ver');
+  if (lastVer && lastVer !== SCHEDULE.version) {
+    // Версия изменилась — показываем уведомление
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification('КГК — Расписание', {
+        body: SCHEDULE.notifText,
+        icon: 'https://images.unsplash.com/photo-1562774053-701939374585?w=192&h=192&fit=crop',
+        tag: 'schedule-update',
+        renotify: true
+      });
+    }
+  }
+  localStorage.setItem('kgk_sched_ver', SCHEDULE.version);
+})();
+</script>
+</body>
+</html>

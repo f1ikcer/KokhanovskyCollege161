@@ -1,0 +1,571 @@
+/* ═══════════════════════════════════════════════════
+   КГК — STYLE v4.0  |  iOS Glassmorphism Edition
+   ═══════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+/* ─── Тёмная тема (iOS Dark) ──────────────────────── */
+:root,
+[data-theme="dark"] {
+  /* Фоны — iOS тёмный */
+  --bg:          #000000;
+  --bg2:         #1c1c1e;
+  --bg3:         #2c2c2e;
+
+  /* Стекло — iOS vibrancy */
+  --glass:       rgba(28, 28, 30, 0.72);
+  --glass2:      rgba(44, 44, 46, 0.65);
+  --glass-light: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-border2: rgba(255, 255, 255, 0.06);
+
+  /* Текст */
+  --text:        #ffffff;
+  --text2:       rgba(235, 235, 245, 0.6);
+  --text3:       rgba(235, 235, 245, 0.3);
+
+  /* Акценты — iOS системные цвета */
+  --accent:      #0A84FF;  /* iOS Blue */
+  --accent2:     #30D158;  /* iOS Green */
+  --accent3:     #BF5AF2;  /* iOS Purple */
+  --accent4:     #FF9F0A;  /* iOS Orange */
+  --accent-red:  #FF453A;  /* iOS Red */
+  --glow:        rgba(10, 132, 255, 0.25);
+
+  /* Скругление — iOS стиль */
+  --radius:      16px;
+  --radius-sm:   12px;
+  --radius-xs:   8px;
+
+  /* Тени — мягкие как в iOS */
+  --shadow:      0 4px 24px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.04) inset;
+  --shadow-sm:   0 2px 12px rgba(0,0,0,0.4);
+  --shadow-lg:   0 8px 48px rgba(0,0,0,0.8);
+
+  /* 120 FPS — подсказка браузеру */
+  scroll-behavior: smooth;
+  --transition:  0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --spring:      0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+
+  /* Separator */
+  --sep:         rgba(84, 84, 88, 0.65);
+}
+
+/* ─── Светлая тема (iOS Light) ────────────────────── */
+[data-theme="light"] {
+  --bg:          #f2f2f7;
+  --bg2:         #ffffff;
+  --bg3:         #e5e5ea;
+
+  --glass:       rgba(242, 242, 247, 0.78);
+  --glass2:      rgba(255, 255, 255, 0.72);
+  --glass-light: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-border2: rgba(0, 0, 0, 0.05);
+
+  --text:        #000000;
+  --text2:       rgba(60, 60, 67, 0.6);
+  --text3:       rgba(60, 60, 67, 0.3);
+
+  --accent:      #007AFF;
+  --accent2:     #34C759;
+  --accent3:     #AF52DE;
+  --accent4:     #FF9500;
+  --accent-red:  #FF3B30;
+  --glow:        rgba(0, 122, 255, 0.18);
+
+  --shadow:      0 2px 16px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.9) inset;
+  --shadow-sm:   0 1px 8px rgba(0,0,0,0.06);
+  --shadow-lg:   0 8px 32px rgba(0,0,0,0.12);
+
+  --sep:         rgba(60, 60, 67, 0.29);
+}
+
+/* ─── Сброс ──────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: -apple-system, 'SF Pro Display', 'Montserrat', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  padding-bottom: 88px;
+  overflow-x: hidden;
+  transition: background 0.35s ease, color 0.35s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── iOS-градиентный фон ─────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(10,132,255,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 110%, rgba(191,90,242,0.08) 0%, transparent 50%);
+  pointer-events: none; z-index: 0;
+}
+[data-theme="light"] body::before {
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(0,122,255,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 110%, rgba(175,82,222,0.05) 0%, transparent 50%);
+}
+
+/* ─── Particles canvas ───────────────────────────── */
+#particles-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.4; }
+[data-theme="light"] #particles-bg { opacity: 0.15; }
+
+/* ═══════════════════════════════════════════════════
+   HEADER — iOS Navigation Bar стиль
+   ═══════════════════════════════════════════════════ */
+header {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--glass);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-bottom: 0.5px solid var(--sep);
+  padding: 10px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px;
+  animation: slideDown 0.5s cubic-bezier(0.34,1.1,0.64,1) both;
+  transition: background 0.35s, border-color 0.35s;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 700; font-size: 1.15rem; letter-spacing: -0.02em;
+  color: var(--text); text-decoration: none;
+  flex-shrink: 0;
+}
+.logo img {
+  width: 36px; height: 36px; border-radius: 10px; object-fit: cover;
+  border: 1.5px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--spring);
+}
+.logo:hover img { transform: scale(1.08); }
+
+/* ─── Контролы хедера ────────────────────────────── */
+.header-controls { display: flex; align-items: center; gap: 8px; }
+
+.lang {
+  display: flex; gap: 2px;
+  background: var(--glass2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid var(--glass-border);
+  border-radius: 9px; padding: 3px;
+}
+
+.lang-btn {
+  padding: 4px 12px; border: none; background: transparent;
+  color: var(--text2); border-radius: 7px;
+  font-family: -apple-system, 'SF Pro Display', 'Montserrat', sans-serif;
+  font-weight: 600; font-size: 0.72rem;
+  letter-spacing: 0.04em; cursor: pointer;
+  transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.lang-btn.active {
+  background: var(--accent); color: #fff;
+  box-shadow: 0 2px 8px rgba(10,132,255,0.4);
+}
+[data-theme="light"] .lang-btn.active { box-shadow: 0 2px 8px rgba(0,122,255,0.3); }
+
+#theme-toggle {
+  width: 34px; height: 34px; border: none; border-radius: 9px;
+  background: var(--glass2);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid var(--glass-border);
+  color: var(--text2); font-size: 0.9rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: var(--transition); flex-shrink: 0;
+}
+#theme-toggle:hover { background: var(--accent); color: #fff; transform: rotate(15deg); border-color: transparent; }
+
+/* ─── Контейнер ──────────────────────────────────── */
+.container { padding: 20px 16px; max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+
+/* ═══════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════ */
+.hero {
+  height: 280px; background-size: cover; background-position: center;
+  border-radius: var(--radius); margin-bottom: 20px;
+  position: relative; overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+  display: flex; align-items: flex-end; padding: 24px;
+}
+.hero h1 {
+  font-weight: 800; font-size: 1.85rem; line-height: 1.15;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.8); letter-spacing: -0.03em;
+  background: none; -webkit-text-fill-color: white; color: white;
+  white-space: pre-line;
+}
+
+.typewriter-cursor {
+  display: inline-block;
+  animation: blink 0.8s step-end infinite;
+  color: var(--accent);
+  font-weight: 400;
+  margin-left: 2px;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ═══════════════════════════════════════════════════
+   ОБРАТНЫЙ ОТСЧЁТ — iOS стеклянная карточка
+   ═══════════════════════════════════════════════════ */
+.countdown-card {
+  background: var(--glass);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  border: 0.5px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  text-align: center;
+  position: relative; overflow: hidden;
+  animation: fadeUp 0.5s 0.15s ease both;
+}
+.countdown-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 0.5px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+}
+.countdown-card h3 {
+  font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text2); margin-bottom: 12px;
+}
+#countdown {
+  display: flex; align-items: center; justify-content: center;
+  gap: 4px; flex-wrap: wrap;
+}
+.cd-unit {
+  display: flex; flex-direction: column; align-items: center;
+  min-width: 54px;
+  background: var(--glass2);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+.cd-num {
+  font-family: -apple-system, 'SF Pro Display', 'JetBrains Mono', monospace;
+  font-weight: 700; font-size: 1.9rem;
+  color: var(--accent); line-height: 1; letter-spacing: -0.02em;
+}
+.cd-label { font-size: 0.62rem; color: var(--text2); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 3px; }
+.cd-sep { font-size: 1.5rem; color: var(--text3); line-height: 1; padding-bottom: 16px; font-weight: 300; }
+.cd-done { font-size: 1.1rem; color: var(--accent2); font-weight: 700; }
+
+/* ═══════════════════════════════════════════════════
+   КАРТОЧКИ — iOS стекло
+   ═══════════════════════════════════════════════════ */
+.card {
+  background: var(--glass);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 0.5px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  position: relative; overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 0.5px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+}
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+/* ─── Типографика ────────────────────────────────── */
+h1 {
+  font-weight: 800; font-size: 1.85rem; margin: 0.7em 0 0.45em; letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--text) 30%, var(--text2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+h2 { font-weight: 700; font-size: 1.2rem; margin: 0 0 0.7em; color: var(--text); letter-spacing: -0.02em; }
+h3 { font-weight: 600; margin: 0.7em 0 0.35em; color: var(--text); }
+p  { color: var(--text2); font-size: 0.95rem; }
+
+/* ─── Новости ────────────────────────────────────── */
+.news-item {
+  padding: 14px 0;
+  border-bottom: 0.5px solid var(--sep);
+  transition: padding-left var(--transition);
+  cursor: default;
+}
+.news-item:last-child { border-bottom: none; }
+.news-item:hover { padding-left: 8px; }
+.news-item h3 { color: var(--text); margin: 3px 0 5px; font-size: 1rem; font-weight: 600; }
+.news-item p { font-size: 0.88rem; margin: 0; }
+time { color: var(--accent); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; display: block; }
+
+/* ─── Профиль ────────────────────────────────────── */
+.avatar-center { text-align: center; margin: 20px 0 16px; }
+.avatar-large {
+  width: 120px; height: 120px; border-radius: 30px; object-fit: cover;
+  border: 2px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+  animation: avatarPop 0.6s 0.2s cubic-bezier(0.34,1.6,0.64,1) both;
+}
+@keyframes avatarPop { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* ─── Контакты ───────────────────────────────────── */
+.contact-row {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 13px 0; border-bottom: 0.5px solid var(--sep);
+  transition: padding-left var(--transition);
+}
+.contact-row:last-child { border-bottom: none; }
+.contact-row:hover { padding-left: 5px; }
+.contact-row i { font-size: 1.25rem; color: var(--accent); width: 28px; text-align: center; flex-shrink: 0; margin-top: 2px; }
+.contact-row strong { color: var(--text); font-weight: 600; }
+.contact-row div { color: var(--text2); font-size: 0.92rem; line-height: 1.7; }
+
+/* ─── Галерея ────────────────────────────────────── */
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.gallery-item {
+  aspect-ratio: 4/3; overflow: hidden; border-radius: var(--radius-sm);
+  cursor: pointer; position: relative; box-shadow: var(--shadow-sm);
+  border: 0.5px solid var(--glass-border);
+}
+.gallery-item::after {
+  content: '🔍';
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.28);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+  opacity: 0; transition: opacity var(--transition);
+}
+.gallery-item:hover::after { opacity: 1; }
+.gallery-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  will-change: transform; display: block;
+}
+.gallery-item:hover img { transform: scale(1.08); }
+
+/* ─── LIGHTBOX ───────────────────────────────────── */
+.lightbox {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  display: none; align-items: center; justify-content: center; z-index: 2000;
+}
+.lightbox.open { display: flex; animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+#lightbox-img {
+  max-width: 92vw; max-height: 86vh; border-radius: var(--radius);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.9);
+  animation: lbZoom 0.3s cubic-bezier(0.34,1.2,0.64,1) both;
+}
+@keyframes lbZoom { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.close-lightbox {
+  position: absolute; top: 16px; right: 20px;
+  font-size: 2.2rem; color: rgba(255,255,255,0.6);
+  cursor: pointer; line-height: 1; transition: color var(--transition), transform var(--transition);
+}
+.close-lightbox:hover { color: white; transform: scale(1.15) rotate(90deg); }
+.lb-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  color: white; border: 0.5px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 1.1rem;
+  transition: background var(--transition), transform var(--transition);
+}
+.lb-arrow:hover { background: rgba(255,255,255,0.22); transform: translateY(-50%) scale(1.1); }
+#lb-prev { left: 14px; }
+#lb-next { right: 14px; }
+.lb-arrow.hidden { display: none; }
+
+/* ═══════════════════════════════════════════════════
+   НИЖНЯЯ НАВИГАЦИЯ — iOS Tab Bar
+   ═══════════════════════════════════════════════════ */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 68px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--glass);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-top: 0.5px solid var(--sep);
+  display: flex; z-index: 999;
+  transition: background 0.35s;
+}
+
+.nav-item {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  color: var(--text2); text-decoration: none;
+  font-size: 0.54rem; letter-spacing: 0.02em; font-weight: 500;
+  transition: color var(--transition);
+  padding: 6px 2px 4px; gap: 3px;
+  position: relative; overflow: hidden;
+}
+.nav-item.active { color: var(--accent); }
+.nav-item:hover { color: var(--accent); }
+.nav-item i {
+  font-size: 1.15rem; line-height: 1;
+  transition: transform var(--spring);
+}
+.nav-item:hover i, .nav-item.active i {
+  transform: translateY(-1px) scale(1.12);
+}
+.nav-item span {
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  max-width: 100%; text-align: center;
+}
+
+/* ─── Ripple ─────────────────────────────────────── */
+.ripple {
+  position: absolute; border-radius: 50%;
+  width: 8px; height: 8px; margin: -4px;
+  background: rgba(255,255,255,0.3);
+  transform: scale(0);
+  animation: rippleAnim 0.5s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes rippleAnim { to { transform: scale(22); opacity: 0; } }
+
+/* ─── Кнопка наверх — iOS стиль ──────────────────── */
+#to-top {
+  position: fixed; bottom: 86px; right: 16px;
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--glass);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid var(--glass-border);
+  color: var(--accent); font-size: 1rem;
+  display: none; align-items: center; justify-content: center;
+  box-shadow: var(--shadow);
+  cursor: pointer; z-index: 998; overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+#to-top:hover { transform: translateY(-3px) scale(1.08); box-shadow: var(--shadow-lg); }
+
+/* ─── Анимации ───────────────────────────────────── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══════════════════════════════════════════════════
+   СТАТУС УРОКА — iOS стеклянный индикатор
+   ═══════════════════════════════════════════════════ */
+.lesson-status {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; border-radius: var(--radius-sm);
+  margin-bottom: 16px; font-weight: 600; font-size: 0.9rem;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid transparent;
+  transition: var(--transition);
+}
+.ls-lesson  { background: rgba(255,69,58,0.12);  border-color: rgba(255,69,58,0.2);   color: #FF453A; }
+.ls-break   { background: rgba(48,209,88,0.1);   border-color: rgba(48,209,88,0.2);   color: #30D158; }
+.ls-done    { background: var(--glass2);          border-color: var(--glass-border);   color: var(--text2); }
+.ls-before  { background: rgba(255,159,10,0.1);  border-color: rgba(255,159,10,0.2);  color: #FF9F0A; }
+.ls-weekend { background: rgba(191,90,242,0.1);  border-color: rgba(191,90,242,0.2);  color: #BF5AF2; }
+.ls-icon   { font-size: 1.2rem; }
+.ls-text   { flex: 1; }
+.ls-remain { font-family: -apple-system, 'JetBrains Mono', monospace; font-size: 0.84rem; opacity: 0.7; font-weight: 500; }
+
+/* ═══════════════════════════════════════════════════
+   РАСПИСАНИЕ — iOS стекло
+   ═══════════════════════════════════════════════════ */
+.section-title {
+  font-size: 1rem; font-weight: 700; color: var(--text);
+  letter-spacing: -0.01em; margin: 20px 0 10px;
+}
+.section-title span { color: var(--text2); font-weight: 500; font-size: 0.88rem; }
+
+.timetable-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: var(--shadow); margin-bottom: 16px;
+  backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+}
+.timetable {
+  width: 100%; min-width: 260px;
+  border-collapse: collapse;
+  background: var(--glass);
+  font-size: 0.83rem;
+}
+.timetable th {
+  background: var(--glass2); color: var(--accent);
+  font-weight: 700; padding: 8px 10px; text-align: center;
+  border-bottom: 0.5px solid var(--sep);
+  font-size: 0.8rem; letter-spacing: 0.02em;
+}
+.timetable td {
+  padding: 7px 10px; text-align: center;
+  border-bottom: 0.5px solid var(--glass-border2);
+  vertical-align: middle; color: var(--text);
+}
+.timetable td:first-child {
+  background: rgba(10,132,255,0.06);
+  font-weight: 700; color: var(--accent); width: 42px;
+}
+[data-theme="light"] .timetable td:first-child { b
+
+
+/* ═══════════════════════════════════════════════════
+   КНОПКА "ЕЩЁ" в навигации
+   ═══════════════════════════════════════════════════ */
+.nav-more-btn {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  color: var(--text2);
+  font-size: 0.54rem; letter-spacing: 0.02em; font-weight: 500;
+  transition: color var(--transition);
+  padding: 6px 2px 4px; gap: 3px;
+  position: relative; overflow: hidden;
+  background: none; border: none; cursor: pointer;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-more-btn i {
+  font-size: 1.15rem; line-height: 1;
+  transition: transform var(--spring);
+}
+.nav-more-btn:active { color: var(--accent); }
+.nav-more-btn:active i { transform: translateY(-1px) scale(1.12); }
+
+/* ═══════════════════════════════════════════════════
+   ЭЛЕМЕНТЫ СЛАЙД-АП МЕНЮ (создаются в JS)
+   ═══════════════════════════════════════════════════ */
+.kgk-mi {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px; padding: 18px 8px;
+  border-radius: 16px;
+  text-decoration: none;
+  font-size: 0.72rem; font-weight: 600;
+  transition: transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  text-align: center;
+  border: 0.5px solid rgba(255,255,255,0.07);
+}
+.kgk-mi i { font-size: 1.4rem; line-height: 1; }
+.kgk-mi:active { transform: scale(0.92); }
+.kgk-mi-active { color: #0A84FF !important; }
+.kgk-mi-active i { color: #0A84FF !important; }
